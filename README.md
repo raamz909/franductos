@@ -14,7 +14,8 @@ Este documento describe todos los pasos necesarios para levantar ambos servicios
 ## 2. Clonar el Repositorio
 
 git clone https://github.com/id-Romero/crud-proyecto.git
-cd tu_proyecto
+
+cd crud-proyecto
 
 ## 3. Instalar Dependencias
 
@@ -36,7 +37,7 @@ Desde la carpeta frontend, ejecuta:
 
 npm run dev
 
-El servidor de desarrollo se iniciará y normalmente estará disponible en http://localhost:3000.
+El servidor de desarrollo se iniciará y está en http://localhost:3000.
 
 ### 4.2 Levantar el Backend (Node con TypeScript)
 Desde la carpeta backend, ejecuta:
