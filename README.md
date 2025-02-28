@@ -37,10 +37,11 @@ Desde la carpeta frontend, ejecuta:
 
 npm run dev
 
-El servidor de desarrollo se iniciará y está en http://localhost:3000.
+El servidor de desarrollo se iniciará y está en http://localhost:3001.
 
 ### 4.2 Levantar el Backend (Node con TypeScript)
 Desde la carpeta backend, ejecuta:
 
 npm run dev
 
+El servidor de desarrollo se iniciará y está en http://localhost:3000.
