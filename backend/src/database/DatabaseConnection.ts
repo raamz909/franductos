@@ -19,8 +19,8 @@ export default class DatabaseConnection {
             host: '127.0.0.1',
             port: 3306,
             username: 'root',
-            password: 'root',
-            database: 'LugoDB',
+            password: '090899',
+            database: 'lugodb',
             synchronize: true,
             entities: [Cliente, Compras, DetalleCompra, DetalleVentas, Empleado, Inventario, Producto, Venta],
         });
