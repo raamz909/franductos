@@ -1,7 +1,7 @@
-"use client";
+"use client"; 
 
 import { useState } from "react";
-import { createCliente, getClientes } from "../../../lib/api";
+import { createCliente, getClientes, deleteCliente } from "../../../lib/api"; // Asegúrate de tener la función deleteCliente en tu API
 
 export default function ClientesPage() {
   const [nombre, setNombre] = useState("");
@@ -26,13 +26,19 @@ export default function ClientesPage() {
       alert("Todos los campos son requeridos");
       return;
     }
+
     try {
-      await createCliente({ nombre, direccion, telefono });
+      // Ahora esperamos que el backend devuelva el cliente con el idCliente
+      const nuevoCliente = await createCliente({ nombre, direccion, telefono });
       alert("Cliente creado con éxito");
+
+      // Añadimos el nuevo cliente a la lista
+      setClientes((prevClientes) => [...prevClientes, nuevoCliente]);
+
+      // Limpiamos los campos del formulario
       setNombre("");
       setDireccion("");
       setTelefono("");
-      if (mostrarClientes) fetchClientes();
     } catch (error) {
       console.error("Error al crear cliente:", error);
       alert("Ocurrió un error al crear el cliente");
@@ -40,11 +46,26 @@ export default function ClientesPage() {
   }
 
   function handleVerClientes() {
-    // Alterna la visualización y, si se activa, carga los clientes.
     if (!mostrarClientes) {
       fetchClientes();
     }
     setMostrarClientes(!mostrarClientes);
+  }
+
+  async function handleEliminarCliente(idCliente) {
+    if (!idCliente) {
+      console.error("ID de cliente no válido:", idCliente);
+      return;
+    }
+
+    try {
+      await deleteCliente(idCliente); // Llamamos a la función de eliminar
+      setClientes((prevClientes) => prevClientes.filter(cliente => cliente.idCliente !== idCliente));
+      alert("Cliente eliminado con éxito");
+    } catch (error) {
+      console.error("Error al eliminar cliente:", error);
+      alert("Ocurrió un error al eliminar el cliente");
+    }
   }
 
   return (
@@ -79,8 +100,22 @@ export default function ClientesPage() {
           <h2>Lista de Clientes</h2>
           <ul>
             {clientes.map((cliente) => (
-              <li key={cliente.idCliente}>
-                {cliente.nombre} - {cliente.direccion} - {cliente.telefono}
+              <li key={cliente.idCliente} style={{ marginBottom: "1rem" }}>
+                <span>{cliente.nombre} - {cliente.direccion} - {cliente.telefono}</span>
+                <button
+                  onClick={() => handleEliminarCliente(cliente.idCliente)}
+                  style={{
+                    marginLeft: "1rem",
+                    backgroundColor: "#f44336", // Rojo
+                    color: "#fff",
+                    border: "none",
+                    padding: "0.25rem 0.5rem",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Eliminar
+                </button>
               </li>
             ))}
           </ul>

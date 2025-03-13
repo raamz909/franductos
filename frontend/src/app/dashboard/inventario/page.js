@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProductos } from "../../../lib/api";
+import { getProductos, deleteProducto } from "../../../lib/api";  // Asegúrate de tener una función `deleteProducto` en tu API
 
 export default function InventarioPage() {
   const [productos, setProductos] = useState([]);
@@ -18,6 +18,17 @@ export default function InventarioPage() {
     } catch (error) {
       console.error("Error al obtener productos:", error);
       alert("Error al obtener productos");
+    }
+  }
+
+  async function handleEliminarProducto(idProducto) {
+    try {
+      await deleteProducto(idProducto); // Esta función debe estar definida en tu API para eliminar un producto
+      // Una vez que el producto es eliminado, actualizamos el estado para eliminarlo del listado
+      setProductos(prevProductos => prevProductos.filter(prod => prod.idProducto !== idProducto));
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+      alert("Error al eliminar producto");
     }
   }
 
@@ -55,6 +66,19 @@ export default function InventarioPage() {
             <p style={{ margin: "0.5rem 0", color: "#555" }}>
               {prod.descripcion}
             </p>
+            <button
+              onClick={() => handleEliminarProducto(prod.idProducto)}
+              style={{
+                backgroundColor: "#f44336", // Rojo
+                color: "#fff",
+                border: "none",
+                padding: "0.5rem 1rem",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              Eliminar
+            </button>
           </div>
         ))}
       </div>

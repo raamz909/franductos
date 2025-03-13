@@ -1,4 +1,4 @@
-import { Application, Request, Response } from 'express';
+import { Application, Request, Response } from 'express'; 
 import HttpStatusCodes from 'http-status-codes';
 import Empleado from '../models/entities/Empleado';
 import BaseController from './BaseController';

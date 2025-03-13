@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createCompra, getCompras } from "../../../lib/api";
+import { createCompra, getCompras, deleteCompra } from "../../../lib/api";
 
 export default function ComprasPage() {
   const [idProveedor, setIdProveedor] = useState("");
@@ -56,6 +56,18 @@ export default function ComprasPage() {
     }
   }
 
+  async function handleDeleteCompra(idCompra) {
+    if (!confirm("¿Estás seguro de eliminar esta compra?")) return;
+    try {
+      await deleteCompra(idCompra);
+      alert("Compra eliminada exitosamente.");
+      fetchCompras();
+    } catch (error) {
+      console.error("Error al eliminar compra:", error);
+      alert("Ocurrió un error al eliminar la compra");
+    }
+  }
+
   return (
     <div style={{ padding: "1rem" }}>
       <h1>Compras</h1>
@@ -98,8 +110,25 @@ export default function ComprasPage() {
       <h2>Lista de Compras</h2>
       <ul>
         {compras.map((compra, index) => (
-          <li key={compra.idCompra || index}>
-            Compra #{compra.idCompra}: Proveedor {compra.idProveedor} - Producto {compra.idProducto} - Cantidad {compra.cantidadCompra} - Total ${compra.totalCompra} - Fecha {compra.fecha}
+          <li key={compra.idCompra || index} style={{ marginBottom: "0.5rem" }}>
+            <span>
+              Compra #{compra.idCompra}: Proveedor {compra.idProveedor} - Producto {compra.idProducto} - 
+              Cantidad {compra.cantidadCompra} - Total ${compra.totalCompra} - Fecha {compra.fecha}
+            </span>
+            <button
+              onClick={() => handleDeleteCompra(compra.idCompra)}
+              style={{
+                marginLeft: "1rem",
+                backgroundColor: "#ff4d4f",
+                color: "#fff",
+                border: "none",
+                borderRadius: "4px",
+                padding: "0.25rem 0.5rem",
+                cursor: "pointer"
+              }}
+            >
+              Eliminar
+            </button>
           </li>
         ))}
       </ul>
